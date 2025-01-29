@@ -1,0 +1,214 @@
+#Criar o banco de dados
+
+
+
+CREATE DATABASE biblioteca;
+
+
+---------------------------------------------------------------------------------------------------------
+
+					#Criar a tabela de livros
+
+
+
+CREATE TABLE livros 
+(
+  id INT PRIMARY KEY,
+
+  titulo VARCHAR(100) NOT NULL,
+
+  autor VARCHAR(50) NOT NULL,
+
+  genero VARCHAR(20) NOT NULL,
+
+  ano_publicacao INT NOT NULL
+);
+
+------------------------------------------------------------------------------------------------------------
+				#Inserir dados na tabela de livros
+
+INSERT INTO livros (id, titulo, autor, genero, ano_publicacao)
+
+VALUES
+  (1, 'O Senhor dos Anéis', 'J.R.R. Tolkien', 'Fantasia', 1954),
+
+        (2, 'O Código Da Vinci', 'Dan Brown', 'Mistério', 2003),
+  
+        (3, 'A Saga Crepúsculo', 'Stephenie Meyer', 'Romance', 2005),
+  
+        (4, 'O Alquimista', 'Paulo Coelho', 'Aventura', 1988),
+  
+        (5, 'A Garota do Livro', 'Maria José Silveira', 'Romance', 2018);
+
+					#Consultar a tabela de livros
+
+
+--------------------------------------------------------------------------------------------------------
+SELECT * FROM livros;
+
+
+# 
+Essa é a estrutura básica do banco de dados. Você pode adicionar mais tabelas, como autores, editoras, etc.
+
+
+---------------------------------------------------------------------------------------------------
+					# Comandos adicionais
+
+				# UPDATE: atualizar dados em uma tabela
+
+
+
+UPDATE livros SET titulo = 'O Senhor dos Anéis - Edição Especial' WHERE id = 1;
+--------------------------------------------------------------------------------------------------
+
+				#DELETE: excluir dados de uma tabela 
+
+DELETE FROM livros WHERE id = 5;
+
+---------------------------------------------------------------------------------------------------
+				
+				# JOIN: combinar dados de duas ou mais tabelas
+
+
+SELECT * FROM livros JOIN autores ON livros.autor_id = autores.id;
+---------------------------------------------------------------------------------------------------
+					
+					# Comandos de Agrupamento
+						#GROUP BY
+
+# O comando GROUP BY é usado para agrupar os resultados de uma consulta por uma ou mais colunas.
+
+
+
+# Exemplo: Agrupar os livros por gênero.
+
+
+SELECT genero, COUNT(*) AS quantidade FROM livros
+GROUP BY genero;
+
+
+
+Resultado:              
+
++----------+------------+
+
+			| genero   | quantidade |
+		        
++----------+------------+
+
+			|Fantasia  |           1|
+
+			| Mistério |           1|
+			
+| Romance  |           3|
+
+			+----------+------------+
+
+------------------------------------------------------------------------------------------------------
+				#HAVING
+
+
+# Ocomando HAVING é usado para filtrar os resultados de uma consulta agrupada.
+
+# Exemplo: Agrupar os livros por gênero e mostrar apenas os gêneros com mais de 2 livros
+
+SELECT genero, COUNT(*) AS quantidade
+ FROM livros 
+GROUP BY genero HAVING COUNT(*) > 2;
+
+Resultado:
+					
+
++----------+----------+
+
+					|genero  | quantidade |
+					
++----------+----------+
+					
+| Romance  |        3 |
+					
++----------+----------+
+
+-------------------------------------------------------------------------------------------------------
+					# Comandos de Busca
+					# LIKE
+
+# O comando LIKE é usado para buscar padrões em strings.
+
+
+# Exemplo: Buscar livros com título que contenha a palavra "Senhor"
+
+
+
+SELECT *
+FROM livros 
+WHERE titulo LIKE '%Senhor%';
+
+Resultado:
+
+
+
++----+-----------------------+---------------+----------+----------------+
+
+| id | titulo                | autor         | genero   | ano_publicacao |
+
++----+-----------------------+---------------+----------+----------------+
+| 1  | O Senhor dos Anéis    | J.R.R. Tolkien| Fantasia | 1954           |
+
++----+-----------------------+---------------+----------+----------------+
+
+--------------------------------------------------------------------------------------------
+					# IN
+# O comando IN é usado para buscar valores em uma lista.
+# 
+
+Exemplo: Buscar livros com gênero "Fantasia" ou "Romance"
+
+
+SELECT *
+FROM livros
+WHERE genero IN ('Fantasia', 'Romance');
+
+
+
+Resultado:
+
++----+-----------------------+----------------+----------+----------------+
+
+| id | titulo                | autor          | genero   | ano_publicacao |
+
++----+-----------------------+----------------+----------+----------------+
+
+| 1  | O Senhor dos Anéis    | J.R.R. Tolkien | Fantasia | 1954           | 
+| 3  | A Saga Crepúsculo     | Stephenie Meyer| Romance  | 2005           |
+
+| 4  | O Alquimista          | Paulo Coelho   | Romance  | 1988           |
+
+| 5  | A Garota do Livro     | Maria José Silveira | Romance  | 2018      |
+
++----+-----------------------+---------------+----------+-----------------+
+
+--------------------------------------------------------------------------------------------
+					# BETWEEN
+# O comando BETWEEN é usado para buscar valores em um intervalo.
+# Exemplo: Buscar livros publicados entre 2000 e 2010
+
+SELECT *
+FROM livros
+WHERE ano_publicacao BETWEEN 2000 AND 2010;
+
+
+Resultado:
+
+
++----+-----------------------+-----------------+----------+---------------+
+
+| id | titulo                | autor           | genero   | ano_publicacao|
+
++----+-----------------------+-----------------+----------+---------------+
+
+| 2  | O Código Da Vinci     | Dan Brown       | Mistério | 2003          |
+| 3  | A Saga Crepúsculo     | Stephenie Meyer | Romance  | 2005          |
+
++----+-----------------------+---------------+------------+---------------+
+
